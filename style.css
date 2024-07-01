@@ -1,0 +1,57 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "VT323", monospace;
+}
+
+#info-container {
+    font-size: 50px;
+    background: #fefefe;
+}
+#round-info, #outcome, #score, #retry-btn-container {
+    height: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#retry-btn {
+    font-size: 35px;
+    padding: 12px 50px;
+    border: solid #000 5px;
+    border-radius: 5px;
+}
+
+#score-ratio-container {
+    height: 100px;
+    display: flex;
+}
+#player-ratio, #computer-ratio {
+    /* Same as flex: 1 1 0%...flex: 2 would be: 2 1 0%...etc... */
+    flex: 1;
+}
+#player-ratio {background-color: green;}
+#computer-ratio {background-color: red;}
+
+#btn-container {
+    background: #44e7a3;
+    display: flex;
+    justify-content: center;
+}
+#rock-btn, #paper-btn, #scissors-btn {
+    border: none;
+    height: 300px;
+    width: 300px;
+    flex: 1;
+}
+.side-panel {flex: 2;}
+
+
+
+
+
+
+
+
+
