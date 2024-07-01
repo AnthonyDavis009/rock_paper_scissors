@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
     <title>Rock, Paper, Scissors</title>
 </head>
 <body>
+    <div id="info-container">
+        <p id="round-info">Round 1</p>
+        <p id="outcome">Choose rock, paper, or scissors against your opponent</p>
+        <p id="score"> Score: 0 - 0</p>
+        <div id="retry-btn-container">
+            <button id="retry-btn">Retry?</button>
+        </div>
+    </div>
+    <div id="score-ratio-container">
+        <div id="player-ratio"></div>
+        <div id="computer-ratio"></div>
+    </div>
+    <div id="btn-container">
+        <div class="side-panel"></div>
+        <img id="rock-btn" class="game-btn" src="./images/rock-576669_1280.png" alt="Rock">
+        <img id="paper-btn" class="game-btn" src="./images/paper-23652_1280.png" alt="Paper">
+        <img id="scissors-btn" class="game-btn" src="./images/scissors-147116_1280.png" alt="Scissors">
+        <div class="side-panel"></div>
+    </div>
+
     <script src="./script.js"></script>
 </body>
 </html>
