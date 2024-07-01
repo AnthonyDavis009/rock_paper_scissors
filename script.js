@@ -1,85 +1,99 @@
+const infoContainer = document.querySelector("#info-container");
+const roundInfo = document.querySelector("#round-info");
+const outcome = document.querySelector("#outcome");
+const score = document.querySelector("#score");
+
+const retryBtnContainer = document.querySelector("#retry-btn-container");
+const retryBtn = document.querySelector("#retry-btn");
+
+const playerRatio = document.querySelector("#player-ratio");
+const computerRatio = document.querySelector("#computer-ratio");
+
+const gameBtnOptions = document.querySelectorAll(".game-btn");
+
 playGame();
 
-function getHumanChoice() {
-    let promptResponse = prompt("Enter rock, paper, or scissors").toLowerCase();
+function playGame() {
+    let roundNum = 1;
+    let playerScore = 0;
+    let computerScore = 0;
 
-   while (promptResponse != "rock" && promptResponse != "paper" && promptResponse != "scissors") {
-        promptResponse = prompt("Error: Invalid response. Enter rock, paper, or scissors").toLowerCase();
-    }
+    playerRatio.style.flex = 1;
+    computerRatio.style.flex = 0;
+    retryBtnContainer.style.display = "none";
 
-    switch (promptResponse) {
-        case "rock":
-            return "rock";
-            break;
-        case "paper":
-            return "paper";
-            break;
-        case "scissors":
-            return "scissors";
-            break;
-    }
+    gameBtnOptions.forEach(button => {
+        button.addEventListener("click", (e) => {
+            // parentNode (e.target in this case is a selected img) and its alt value
+            let playerSelection = e.target.alt;
+            let cpuSelection = getComputerChoice();
+            retryBtnContainer.style.display = "none";
+            // Once player or computer reaches score of 5, this becomes false
+            if(playerScore < 5 && computerScore < 5) {
+                let roundResult = playRound(playerSelection, cpuSelection, playerScore, computerScore);
+                if(roundResult == "tie") {playerScore++; computerScore++;}
+                else if(roundResult == "won") {playerScore++;}
+                else if(roundResult == "lost") {computerScore++;}
+                playerRatio.style.flex = playerScore;
+                computerRatio.style.flex = computerScore;
+                // Update round info
+                roundInfo.textContent = `Round ${++roundNum}`;
+                outcome.textContent = `You chose ${playerSelection}... Opponent chose ${cpuSelection}`;
+                score.textContent = `Score: ${playerScore} - ${computerScore}`;
+            }
+            // Immediately end game when roundNum is 5 (not for else if statements)
+            if (playerScore == 5 || computerScore == 5) {
+                if(playerScore == computerScore) roundInfo.textContent = "You are tied";
+                else if(playerScore > computerScore) roundInfo.textContent = "You won!";
+                else if(computerScore > playerScore) roundInfo.textContent = "You lost...";
+                
+                score.textContent = `Final Score: ${playerScore} - ${computerScore}`;
+                infoContainer.style.textAlign = "center";
+                retryBtnContainer.style.display = "block";
+            }
+        });
+    });
 }
 
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
     switch (choice) {
-        case 0:
-            return "rock";
-            break;
-        case 1:
-            return "paper";
-            break;
-        case 2:
-            return "scissors";
-            break;
-        default:
-            return "Error: Game is broken";
+        // Break statements are not needed alongside return statements.
+        case 0: return "Rock"; 
+        case 1: return "Paper"; 
+        case 2: return "Scissors"; 
+        default: return "Error: Game is broken";
     }
 }
+
+function playRound(playerSelection, computerChoice, playerScore, computerScore) {
+    // Tie condition
+    if(playerSelection == computerChoice) {
+        return "tie";
+    }
+    // LOSE CONDITION
+    else if ((playerSelection == "Paper" && computerChoice == "Scissors") ||
+             (playerSelection == "Scissors" && computerChoice == "Rock") ||
+             (playerSelection == "Rock" && computerChoice == "Paper")) {
+        return "lost";
+    }
+    // WIN CONDITION
+    else if ((playerSelection == "Scissors" && computerChoice == "Paper") ||
+             (playerSelection == "Rock" && computerChoice == "Scissors") ||
+             (playerSelection == "Paper" && computerChoice == "Rock")) {
+        return "won";
+    }
+}
+
+retryBtn.addEventListener("click", () => {
+    roundInfo.textContent = "Round 1";
+    outcome.textContent = "Choose rock, paper, or scissors against your opponent";
+    score.textContent = "Score: 0 - 0";
+    playGame();
+});
     
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
 
-    let rounds = 0;
 
-    while(rounds < 5) {
-        let humanChoiceVal = getHumanChoice();
-        let computerChoiceVal = getComputerChoice();
-        console.log(playRound(humanChoiceVal, computerChoiceVal));
-    } 
 
-    function playRound(humanChoice, computerChoice) {
-        rounds++;
-        // Tie condition
-        if(humanChoice == computerChoice) {
-            return "Both of you chose " + humanChoice + ". It is a draw!"
-        }
-        // LOSE CONDITION
-        else if ((humanChoice == "paper" && computerChoice == "scissors") ||
-                 (humanChoice == "scissors" && computerChoice == "rock") ||
-                 (humanChoice == "rock" && computerChoice == "paper")) {
-                    computerScore++;
-                    return humanChoice + " loses to " + computerChoice + "!";
-        }
-        // WIN CONDITION
-        else if ((humanChoice == "scissors" && computerChoice == "paper") ||
-                 (humanChoice == "rock" && computerChoice == "scissors") ||
-                 (humanChoice == "paper" && computerChoice == "rock")) {
-                    humanScore++;
-                    return humanChoice + " wins against " + computerChoice + "!";
-        }
-    }
-    // Tie result
-    if(humanScore == computerScore) {
-        console.log("The result is a tie! Your score: " + humanScore + ". Opponent's score: " + computerScore);
-    } 
-    // Lose result
-    else if(humanScore < computerScore) {
-        console.log("You have lost! Your score: " + humanScore + ". Opponent's score: " + computerScore);
-    }
-     // Winner result
-    else if(humanScore > computerScore) {
-        console.log("You have won! Your score: " + humanScore + ". Opponent's score: " + computerScore);
-    }   
-}
+
+
